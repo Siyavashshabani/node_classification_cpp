@@ -1,0 +1,11 @@
+build/
+saved_weights/*.pt
+saved_weights/*.txt
+third_party/libtorch/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+.DS_Store
