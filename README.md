@@ -38,18 +38,19 @@ As a result:
   - `cls2` weight norm (before load): 0.899028  
   - `cls2` weight norm (after load):  0.899028
 
-Although the checkpoints are loaded without any error, this is not safe for deployment/production, since cls2 is not trained. As a warning we are printing the
-Missing keys(cls2):
-- `head_cls2.weight`
-- `head_cls2.bias`
+Although the checkpoints load without any errors, this setup is **not safe for deployment/production** because `cls2` has not been trained. When running the code, the following keys for `cls2` are reported:
+
+- **Missing keys (2):**
+  - `head_cls2.weight`
+  - `head_cls2.bias`
+- **Unexpected keys (0)**
 
 ## One improvement for production safety
 As a way to improve the reliability of the project, we can add a schema_version and model metadata to each checkpoint; the loader for the new model validates compatibility and refuses to load when the checkpoint structure doesn’t match, preventing silent partial weight loading.
 
 ## Optional stretch (bonus points)
-To address this section, synthetic data is generated where each node has three different input groups: `inputs["feat6"]`, `inputs["feat12"]`, and `inputs["feat8"]`. Other parameters, such as the number of nodes, are the same as in the previous synthetic dataset. The `add_input_group` function acts as an adapter that maps each input group to a target-dimensional representation (`Linear(in_dim, in_F)`). These adapted inputs are then combined using the `build_X_from_inputs` function with either `"mean"` or `"sum"`.
-
-All other parts of the code are the same as in the previous file. To keep the main implementation clean, the optional section is implemented in `main_opt.cpp`.
+To address this section, synthetic data is generated where each node has three different input groups: `inputs["feat6"]`, `inputs["feat12"]`, and `inputs["feat8"]`. Other parameters, such as the number of nodes, are the same as in the previous synthetic dataset. The `add_input_group` function acts as an adapter that maps each input group to a target-dimensional representation (`Linear(in_dim, in_F)`). These adapted inputs are then combined using the `build_X_from_inputs` function with either `"mean"` or `"sum"`.All other parts of the code are the same as in the previous file. 
+To keep the main implementation clean, the optional section is implemented in `main_opt.cpp`.
 
 ### How to run (optional)
 1. In `CMakeLists.txt`, uncomment:
